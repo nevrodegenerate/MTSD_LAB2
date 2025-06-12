@@ -70,7 +70,7 @@ void char_list::AppendAll(std::string new_chars) {
 }
 
 void char_list::Insert(char new_char, int index) {
-	if (!index || index > length) {
+	if (index < 0 || index > length) {
 		throw std::invalid_argument("Index out of range");
 	}
 	list_element* new_elem = new list_element(new_char);
@@ -100,7 +100,7 @@ void char_list::Insert(char new_char, int index) {
 }
 
 char char_list::Delete(int index) {
-	if (!index || index > length) {
+	if (index < 0 || index > length) {
 		throw std::invalid_argument("Index out of range");
 	}
 
@@ -139,7 +139,7 @@ void char_list::DeleteAll(char target) {
 }
 
 char char_list::Get(int index) {
-	if (!index || index > length) {
+	if (index < 0 || index > length) {
 		throw std::invalid_argument("Index out of range");
 	}
 
