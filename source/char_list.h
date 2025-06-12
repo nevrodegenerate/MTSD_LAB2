@@ -3,19 +3,11 @@
 #include <iostream>
 #include <string>
 
-class list_element {
-public:
-	char item;
-	list_element* next_elem;
-	list_element(char new_item);
-};
-
 class char_list {
 private:
 	std::string name;
 	int length;
-	list_element* start;
-	list_element* end;
+	char* list;
 public:
 	char_list operator=(const char_list& new_list);
 	char_list(std::string new_name);
@@ -40,4 +32,3 @@ public:
 	void Extend(char_list extension);
 	void Print();
 };
-
