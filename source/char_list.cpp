@@ -48,7 +48,20 @@ int char_list::GetLength() {
 	return length;
 }
 
-void char_list::Append(char new_char) { }
+void char_list::Append(char new_char) {
+	list_element* new_element = new list_element(new_char);
+
+	if (!length) {
+		start = end = new_element;
+		new_element->next_elem = new_element;
+	}
+	else {
+		end->next_elem = new_element;
+		end = new_element;
+		new_element->next_elem = start;
+	}
+	length++;
+}
 
 void char_list::AppendAll(std::string new_chars) {
 	for (int i = 0; i < new_chars.length(); i++) {
@@ -56,13 +69,64 @@ void char_list::AppendAll(std::string new_chars) {
 	}
 }
 
-void char_list::Insert(char new_char, int index){}
+void char_list::Insert(char new_char, int index) {
+	if (!index || index > length) {
+		throw std::invalid_argument("Index out of range");
+	}
+	list_element* new_elem = new list_element(new_char);
+	list_element* temp1 = start;
+	list_element* temp2 = temp1->next_elem;
+
+	for (int i = 0; i < index; i++) {
+		temp1 = temp1->next_elem;
+	}
+	for (int i = 0; i < length; i++) {
+		if (temp2->next_elem == temp1) {
+			temp2->next_elem = new_elem;
+			break;
+		}
+		temp2 = temp2->next_elem;
+	}
+
+	if (!index) {
+		start = new_elem;
+	}
+	else if (index = length - 1) {
+		end = new_elem;
+	}
+
+	new_elem->next_elem = temp1;
+	length++;
+}
 
 char char_list::Delete(int index) {
 	if (!index || index > length) {
 		throw std::invalid_argument("Index out of range");
 	}
-	return '0';
+
+	list_element* temp = start;
+	char target;
+
+	for (int i = 0; i < index - 1; i++) {
+		temp = temp->next_elem;
+	}
+
+	if (!index) {
+		start = temp->next_elem;
+	}
+	else if (index == length - 1) {
+		list_element* new_end = start;
+		for (int i = 0; i < length - 2; i++) {
+			new_end = new_end->next_elem;
+		}
+		end = new_end;
+	}
+
+	target = temp->item;
+	temp->next_elem = temp->next_elem->next_elem;
+	length--;
+
+	return target;
 }
 
 void char_list::DeleteAll(char target) {
@@ -78,21 +142,63 @@ char char_list::Get(int index) {
 	if (!index || index > length) {
 		throw std::invalid_argument("Index out of range");
 	}
-	return '0';
+
+	list_element* temp = start;
+
+	for (int i = 0; i < index; i++) {
+		temp = temp->next_elem;
+	}
+
+	return temp->item;
 }
 
 char_list char_list::Clone() {
 	return std::move(*this);
 }
 
-void char_list::Reverse() {}
+void char_list::Reverse() {
+	list_element* temp1 = start;
+	list_element* temp2 = end;
+	list_element* temp3 = temp1->next_elem;
+	start = temp2;
+	end = temp1;
+
+	for (int i = 0; i < length; i++) {
+		temp3 = temp1->next_elem;
+		for (int j = 0; j < length - 3; j++) {
+			temp1->next_elem = temp1->next_elem->next_elem;
+		}
+		temp1->next_elem = temp2;
+		temp2 = temp1;
+		temp1 = temp3;
+	}
+}
 
 int char_list::FindFirst(char target) {
+	list_element* temp = start;
+
+	for (int i = 0; i < length; i++) {
+		if (temp->item == target) {
+			return i;
+		}
+		temp = temp->next_elem;
+	}
+
 	return -1;
 }
 
 int char_list::FindLast(char target) {
-	return -1;
+	list_element* temp = start;
+	int index = -1;
+
+	for (int i = 0; i < length; i++) {
+		if (temp->item == target) {
+			index = i;
+		}
+		temp = temp->next_elem;
+	}
+
+	return index;
 }
 
 void char_list::Clear() {
