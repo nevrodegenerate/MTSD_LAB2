@@ -56,7 +56,7 @@ void char_list::AppendAll(std::string new_chars) {
 	}
 }
 
-void Insert(char new_char, int index){}
+void char_list::Insert(char new_char, int index){}
 
 char char_list::Delete(int index) {
 	if (!index || index > length) {
