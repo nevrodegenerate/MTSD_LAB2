@@ -44,6 +44,11 @@ TEST_F(list_test, Deletion) {
 TEST_F(list_test, Find) {
     EXPECT_EQ(test_list.FindFirst('t'), 0);
     EXPECT_EQ(test_list.FindLast('t'), 3);
+
+    test_list.Clear();
+    test_list.AppendAll("0202020");
+    EXPECT_EQ(test_list.FindFirst('2'), 1);
+    EXPECT_EQ(test_list.FindLast('2'), 5);
 }
 
 TEST_F(list_test, Reverse) {
