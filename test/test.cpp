@@ -29,9 +29,13 @@ TEST_F(list_test, Deletion) {
     EXPECT_EQ(test_list.GetLength(), 6);
 
     test_list.DeleteAll('t');
-    EXPECT_EQ(test_list.GetLength(), 4);
     EXPECT_EQ(test_list.Get(0), 'e');
     EXPECT_EQ(test_list.Get(3), '2');
+    EXPECT_EQ(test_list.GetLength(), 4);
+
+    EXPECT_EQ(test_list.Delete(0), 'e');
+    EXPECT_EQ(test_list.Get(0), 's');
+    EXPECT_EQ(test_list.GetLength(), 3);
 
     test_list.Clear();
     EXPECT_EQ(test_list.GetLength(), 0);
